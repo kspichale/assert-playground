@@ -25,6 +25,9 @@ public class CarHamcrestMatcherTest {
 
 	@Test
 	public void hamcrestExample() {
-		assertThat(car, allOf(hasExtras(new AirConditioning()), hasMinimumExtrasCount(3), hasEngineType(REGULAR_GAS)));
+		assertThat(
+				car,
+				allOf(hasExtras(new AirConditioning(), new SoundSystem()), hasMinimumExtrasCount(2),
+						hasEngineType(REGULAR_GAS)));
 	}
 }

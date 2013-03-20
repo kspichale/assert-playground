@@ -89,6 +89,9 @@ public class CarHamcrestMatcher extends TypeSafeMatcher<Car> {
 
 		@Override
 		protected boolean matchesSafely(Car car) {
+			if (car.getExtras().size() != extras.length) {
+				return false;
+			}
 			for (Extra extra : extras) {
 				if (!car.getExtras().contains(extra)) {
 					return false;

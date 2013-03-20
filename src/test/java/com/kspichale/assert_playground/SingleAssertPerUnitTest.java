@@ -9,6 +9,7 @@ import org.junit.Test;
 
 import com.kspichale.assert_playground.dao.CarDao;
 import com.kspichale.assert_playground.model.Car;
+import com.kspichale.assert_playground.model.VehicleIdentificationNumber;
 import com.kspichale.assert_playground.model.extras.AirConditioning;
 import com.kspichale.assert_playground.model.extras.SoundSystem;
 
@@ -20,7 +21,8 @@ public class SingleAssertPerUnitTest {
 
 	@Before
 	public void setupBeforeTest() {
-		this.car = new Car().withEngineType(REGULAR_GAS).withExtras(new AirConditioning(), new SoundSystem());
+		this.car = new Car().withEngineType(REGULAR_GAS).withExtras(new AirConditioning(), new SoundSystem())
+				.withVin(new VehicleIdentificationNumber().withValue("FOOBAR42"));
 		this.dao = new CarDao();
 	}
 
@@ -48,7 +50,7 @@ public class SingleAssertPerUnitTest {
 		Car foundCar = dao.findByVin(car.getVin());
 		assertSameCar(car, foundCar);
 	}
-	
+
 	private void assertSameCar(Car expected, Car actual) {
 		assertEquals(expected.getVin(), actual.getVin());
 	}

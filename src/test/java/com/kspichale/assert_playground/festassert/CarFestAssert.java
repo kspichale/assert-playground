@@ -17,7 +17,7 @@ public class CarFestAssert extends GenericAssert<CarFestAssert, Car> {
 	}
 
 	public CarFestAssert hasExtras(Extra... extras) {
-		org.fest.assertions.Assertions.assertThat(actual.getExtras()).contains((Object[]) extras);
+		org.fest.assertions.Assertions.assertThat(actual.getExtras()).containsOnly((Object[]) extras);
 		return this;
 	}
 

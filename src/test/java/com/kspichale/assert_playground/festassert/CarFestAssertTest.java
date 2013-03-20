@@ -21,7 +21,7 @@ public class CarFestAssertTest {
 
 	@Test
 	public void hamcrestExample() {
-		assertThat(car).hasExtras(new AirConditioning()).hasMinimumExtraCount(2).hasEngineType(REGULAR_GAS);
+		assertThat(car).hasExtras(new SoundSystem(), new AirConditioning()).hasMinimumExtraCount(2).hasEngineType(REGULAR_GAS);
 	}
 
 }

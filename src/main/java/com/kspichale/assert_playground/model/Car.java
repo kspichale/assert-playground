@@ -3,20 +3,35 @@ package com.kspichale.assert_playground.model;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Set;
+
+import javax.persistence.CollectionTable;
+import javax.persistence.Column;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
+import org.springframework.data.jpa.domain.AbstractPersistable;
 
-import com.kspichale.assert_playground.model.extras.Extra;
+@Entity
+public class Car extends AbstractPersistable<Long> {
 
-public class Car {
+	private static final long serialVersionUID = 1579677179893541654L;
 
+	@Column
 	private EngineType engineType;
-	private VehicleIdentificationNumber vin;
-	private Id id;
-	private final Set<Extra> extras = new HashSet<Extra>();
+
+	@Column
+	private String vin;
+
+	@ElementCollection(targetClass = Extra.class)
+	@Enumerated(EnumType.STRING)
+	@CollectionTable(name = "car_extras")
+	@Column(name = "car")
+	private final Collection<Extra> extras = new HashSet<Extra>();
 
 	public Car withEngineType(EngineType engineType) {
 		setEngineType(engineType);
@@ -27,12 +42,12 @@ public class Car {
 		this.engineType = engineType;
 	}
 
-	public Car withVin(VehicleIdentificationNumber vin) {
+	public Car withVin(String vin) {
 		setLicenseNumber(vin);
 		return this;
 	}
 
-	public void setLicenseNumber(VehicleIdentificationNumber vin) {
+	public void setLicenseNumber(String vin) {
 		this.vin = vin;
 	}
 
@@ -48,15 +63,11 @@ public class Car {
 	}
 
 	public Collection<Extra> getExtras() {
-		return Collections.unmodifiableSet(extras);
+		return Collections.unmodifiableCollection(extras);
 	}
 
-	public VehicleIdentificationNumber getVin() {
+	public String getVin() {
 		return this.vin;
-	}
-
-	public Id getId() {
-		return this.id;
 	}
 
 	@Override

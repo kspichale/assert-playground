@@ -9,7 +9,7 @@ import org.hamcrest.TypeSafeMatcher;
 
 import com.kspichale.assert_playground.model.Car;
 import com.kspichale.assert_playground.model.EngineType;
-import com.kspichale.assert_playground.model.extras.Extra;
+import com.kspichale.assert_playground.model.Extra;
 
 public class CarHamcrestMatcher extends TypeSafeMatcher<Car> {
 

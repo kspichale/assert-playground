@@ -3,33 +3,41 @@ package com.kspichale.assert_playground;
 import static com.kspichale.assert_playground.model.EngineType.REGULAR_GAS;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.fest.assertions.Assertions.assertThat;
+import static com.kspichale.assert_playground.festassert.CarFestAssert.assertThat;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.kspichale.assert_playground.dao.CarDao;
 import com.kspichale.assert_playground.model.Car;
-import com.kspichale.assert_playground.model.VehicleIdentificationNumber;
-import com.kspichale.assert_playground.model.extras.AirConditioning;
-import com.kspichale.assert_playground.model.extras.SoundSystem;
+import com.kspichale.assert_playground.model.Extra;
+import com.kspichale.assert_playground.repository.CarRepository;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = "classpath:repository-context.xml")
+@Transactional
 public class SingleAssertPerUnitTest {
 
 	private Car car;
 
-	private CarDao dao;
+	@Autowired
+	private CarRepository dao;
 
 	@Before
 	public void setupBeforeTest() {
-		this.car = new Car().withEngineType(REGULAR_GAS).withExtras(new AirConditioning(), new SoundSystem())
-				.withVin(new VehicleIdentificationNumber().withValue("FOOBAR42"));
-		this.dao = new CarDao();
+		this.car = new Car().withEngineType(REGULAR_GAS).withExtras(Extra.AIRCONDITIONING, Extra.SOUND_SYSTEM)
+				.withVin("FOOBAR42");
 	}
 
 	// this test has multiple assertions
 	@Test
 	public void findCarByItsVin() {
-		dao.add(car);
+		dao.save(car);
 		assertNotNull(car.getId());
 		Car foundCar = dao.findByVin(car.getVin());
 		assertNotNull(foundCar);
@@ -38,25 +46,21 @@ public class SingleAssertPerUnitTest {
 
 	// better: this test has one assert statement with clear intention
 	@Test
-	public void saveCar() {
-		dao.add(car);
+	public void canBePersisted() {
+		dao.save(car);
 		assertReloadWithSamePersistentState(car);
 	}
 
-	// has only one assertion
+	// better: has only one assertion
 	@Test
 	public void findCarByVin() {
-		dao.add(car);
+		dao.save(car);
 		Car foundCar = dao.findByVin(car.getVin());
-		assertSameCar(car, foundCar);
+		assertEquals(car, foundCar);
 	}
 
-	private void assertSameCar(Car expected, Car actual) {
-		assertEquals(expected.getVin(), actual.getVin());
-	}
-
-	private void assertReloadWithSamePersistentState(Car car) {
-		// TODO Auto-generated method stub
+	private void assertReloadWithSamePersistentState(Car original) {
+		assertThat(dao.findOne(car.getId())).hasSamePersistentFieldsAs(original);
 	}
 
 }

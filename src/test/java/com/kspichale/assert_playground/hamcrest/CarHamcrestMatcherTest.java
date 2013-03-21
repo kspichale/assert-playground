@@ -11,8 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.kspichale.assert_playground.model.Car;
-import com.kspichale.assert_playground.model.extras.AirConditioning;
-import com.kspichale.assert_playground.model.extras.SoundSystem;
+import com.kspichale.assert_playground.model.Extra;
 
 public class CarHamcrestMatcherTest {
 
@@ -20,14 +19,14 @@ public class CarHamcrestMatcherTest {
 
 	@Before
 	public void setupBeforeTest() {
-		this.car = new Car().withEngineType(REGULAR_GAS).withExtras(new AirConditioning(), new SoundSystem());
+		this.car = new Car().withEngineType(REGULAR_GAS).withExtras(Extra.AIRCONDITIONING, Extra.SOUND_SYSTEM);
 	}
 
 	@Test
 	public void hamcrestExample() {
 		assertThat(
 				car,
-				allOf(hasExtras(new AirConditioning(), new SoundSystem()), hasMinimumExtrasCount(2),
+				allOf(hasExtras(Extra.AIRCONDITIONING, Extra.SOUND_SYSTEM), hasMinimumExtrasCount(2),
 						hasEngineType(REGULAR_GAS)));
 	}
 }

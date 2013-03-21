@@ -1,14 +1,13 @@
 package com.kspichale.assert_playground.festassert;
 
-import static com.kspichale.assert_playground.model.EngineType.REGULAR_GAS;
 import static com.kspichale.assert_playground.festassert.CarFestAssert.assertThat;
+import static com.kspichale.assert_playground.model.EngineType.REGULAR_GAS;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import com.kspichale.assert_playground.model.Car;
-import com.kspichale.assert_playground.model.extras.AirConditioning;
-import com.kspichale.assert_playground.model.extras.SoundSystem;
+import com.kspichale.assert_playground.model.Extra;
 
 public class CarFestAssertTest {
 
@@ -16,12 +15,13 @@ public class CarFestAssertTest {
 
 	@Before
 	public void setupBeforeTest() {
-		this.car = new Car().withEngineType(REGULAR_GAS).withExtras(new AirConditioning(), new SoundSystem());
+		this.car = new Car().withEngineType(REGULAR_GAS).withExtras(Extra.SOUND_SYSTEM, Extra.AIRCONDITIONING);
 	}
 
 	@Test
 	public void hamcrestExample() {
-		assertThat(car).hasExtras(new SoundSystem(), new AirConditioning()).hasMinimumExtraCount(2).hasEngineType(REGULAR_GAS);
+		assertThat(car).hasExtras(Extra.SOUND_SYSTEM, Extra.AIRCONDITIONING).hasMinimumExtraCount(2)
+				.hasEngineType(REGULAR_GAS);
 	}
 
 }

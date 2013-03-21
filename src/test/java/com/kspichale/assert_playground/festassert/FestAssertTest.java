@@ -7,8 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.kspichale.assert_playground.model.Car;
-import com.kspichale.assert_playground.model.extras.AirConditioning;
-import com.kspichale.assert_playground.model.extras.SoundSystem;
+import com.kspichale.assert_playground.model.Extra;
 
 public class FestAssertTest {
 
@@ -16,13 +15,13 @@ public class FestAssertTest {
 
 	@Before
 	public void setupBeforeTest() {
-		this.car = new Car().withEngineType(REGULAR_GAS).withExtras(new AirConditioning(), new SoundSystem());
+		this.car = new Car().withEngineType(REGULAR_GAS).withExtras(Extra.AIRCONDITIONING, Extra.SOUND_SYSTEM);
 	}
 
 	@Test
 	public void hamcrestExample() {
 		assertThat(car.getEngineType()).isEqualTo(REGULAR_GAS);
-		assertThat(car.getExtras()).contains(new AirConditioning()).hasSize(2);
+		assertThat(car.getExtras()).contains(Extra.AIRCONDITIONING).hasSize(2);
 	}
 
 }

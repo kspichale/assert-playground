@@ -19,8 +19,7 @@ import ch.lambdaj.function.matcher.LambdaJMatcher;
 
 import com.kspichale.assert_playground.model.Car;
 import com.kspichale.assert_playground.model.EngineType;
-import com.kspichale.assert_playground.model.extras.AirConditioning;
-import com.kspichale.assert_playground.model.extras.SoundSystem;
+import com.kspichale.assert_playground.model.Extra;
 
 public class LambdajTest {
 
@@ -29,7 +28,7 @@ public class LambdajTest {
 	@Before
 	public void setupBeforeTest() {
 		this.cars = new HashSet<Car>();
-		cars.add(new Car().withEngineType(REGULAR_GAS).withExtras(new AirConditioning(), new SoundSystem()));
+		cars.add(new Car().withEngineType(REGULAR_GAS).withExtras(Extra.AIRCONDITIONING, Extra.SOUND_SYSTEM));
 	}
 
 	public static LambdaJMatcher<Collection<Car>> hasEngineType(EngineType engineType) {

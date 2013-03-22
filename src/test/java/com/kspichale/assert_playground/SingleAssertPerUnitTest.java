@@ -1,10 +1,9 @@
 package com.kspichale.assert_playground;
 
+import static com.kspichale.assert_playground.festassert.CarFestAssert.assertThat;
 import static com.kspichale.assert_playground.model.EngineType.REGULAR_GAS;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.fest.assertions.Assertions.assertThat;
-import static com.kspichale.assert_playground.festassert.CarFestAssert.assertThat;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -30,7 +29,8 @@ public class SingleAssertPerUnitTest {
 
 	@Before
 	public void setupBeforeTest() {
-		this.car = new Car().withEngineType(REGULAR_GAS).withExtras(Extra.AIRCONDITIONING, Extra.SOUND_SYSTEM)
+		this.car = new Car().withEngineType(REGULAR_GAS)
+				.withExtras(Extra.AIRCONDITIONING, Extra.SOUND_SYSTEM)
 				.withVin("FOOBAR42");
 	}
 
@@ -48,7 +48,7 @@ public class SingleAssertPerUnitTest {
 	@Test
 	public void canBePersisted() {
 		dao.save(car);
-		assertReloadWithSamePersistentState(car);
+		assertReloadsWithSamePersistentState(car);
 	}
 
 	// better: has only one assertion
@@ -59,8 +59,9 @@ public class SingleAssertPerUnitTest {
 		assertEquals(car, foundCar);
 	}
 
-	private void assertReloadWithSamePersistentState(Car original) {
-		assertThat(dao.findOne(car.getId())).hasSamePersistentFieldsAs(original);
+	private void assertReloadsWithSamePersistentState(Car original) {
+		assertThat(dao.findOne(car.getId()))
+				.hasSamePersistentFieldsAs(original);
 	}
 
 }

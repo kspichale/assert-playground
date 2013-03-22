@@ -44,19 +44,19 @@ public class SingleAssertPerUnitTest {
 		assertEquals(car, foundCar);
 	}
 
-	// better: this test has one assert statement with clear intention
-	@Test
-	public void canBePersisted() {
-		dao.save(car);
-		assertReloadsWithSamePersistentState(car);
-	}
-
 	// better: has only one assertion
 	@Test
 	public void findCarByVin() {
 		dao.save(car);
 		Car foundCar = dao.findByVin(car.getVin());
 		assertEquals(car, foundCar);
+	}
+
+	// better: this test has one assert statement with clear intention
+	@Test
+	public void canBePersisted() {
+		dao.save(car);
+		assertReloadsWithSamePersistentState(car);
 	}
 
 	private void assertReloadsWithSamePersistentState(Car original) {

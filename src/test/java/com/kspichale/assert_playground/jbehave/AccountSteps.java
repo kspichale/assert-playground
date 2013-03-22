@@ -9,20 +9,20 @@ import org.jbehave.core.annotations.When;
 import org.jbehave.core.steps.Steps;
 
 public class AccountSteps extends Steps {
-	int x;
+	private Account account;
 
 	@Given("is an account with credit $value")
 	public void givenValueX(@Named("value") int value) {
-		x = value;
+		account = new Account(value);
 	}
 
 	@When("I withdraw $value")
 	public void whenWithdrawValue(@Named("value") int value) {
-		x = x - value;
+		account.reduceCreditBy(value);
 	}
 
 	@Then("ensure that credit is $value")
 	public void thenCreditShouldBe(@Named("value") int value) {
-		assertThat(value).isEqualTo(x);
+		assertThat(value).isEqualTo(account.getCredit());
 	}
 }
